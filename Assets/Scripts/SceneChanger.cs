@@ -9,7 +9,7 @@ public class SceneChanger : MonoBehaviour
 
     public enum SceneNames
     { 
-        MainMenu, Main
+        MainMenu, Remember
     }
 
 

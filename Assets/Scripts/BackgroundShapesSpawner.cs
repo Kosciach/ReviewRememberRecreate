@@ -44,7 +44,7 @@ public class BackgroundShapesSpawner : MonoBehaviour
 
     private void SpawnerTimer()
     {
-        _currentTimeToSpawn -= 10 * Time.deltaTime;
+        _currentTimeToSpawn -= 50 * Time.deltaTime;
         _currentTimeToSpawn = Mathf.Clamp(_currentTimeToSpawn, 0, _timeToSpawn);
 
         if (_currentTimeToSpawn > 0) return;

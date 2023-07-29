@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuController : MonoBehaviour
+public class MainMenuSceneController : MonoBehaviour
 {
     [Header("====References====")]
     [SerializeField] CanvasFadeController _fadeController;
@@ -14,7 +14,7 @@ public class MainMenuController : MonoBehaviour
         _fadeController.Toggle(true, fadeDuration);
         this.Delay(fadeDuration, () =>
         {
-            SceneChanger.Instance.ChangeScene(SceneChanger.SceneNames.Main);
+            SceneChanger.Instance.ChangeScene(SceneChanger.SceneNames.Remember);
         });
     }
     public void ExitGame()

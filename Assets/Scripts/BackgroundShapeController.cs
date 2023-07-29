@@ -3,76 +3,162 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackgroundShapeController : MonoBehaviour
+namespace BackgroundShape
 {
-    private Shape _shape;
-    private float _moveSpeed;
-    private float _rotationSpeed;
-
-
-
-    private void Awake()
+    public class BackgroundShapeController : MonoBehaviour
     {
-        _shape = GetComponent<Shape>();
+        private Shape _shape;
+        private BaseBackgroundShapeSetupController[] _shapeSetups;
+        private ShapeType _shapeType;
+        private float _moveSpeed;
+        private float _rotationSpeed;
 
-        SetShapeType();
-        SetColors();
 
-        SetScale();
 
-        SetSpeeds();
-        Destroy(gameObject, 10);
+        private void Awake()
+        {
+            _shape = GetComponent<Shape>();
+
+            _shapeSetups = new BaseBackgroundShapeSetupController[4];
+            _shapeSetups[(int)ShapeType.Ellipse] = new BackgroundShapeSetup_Ellipse(_shape);
+            _shapeSetups[(int)ShapeType.Polygon] = new BackgroundShapeSetup_Polygon(_shape);
+            _shapeSetups[(int)ShapeType.Rectangle] = new BackgroundShapeSetup_Rectangle(_shape);
+            _shapeSetups[(int)ShapeType.Triangle] = new BackgroundShapeSetup_Triangle(_shape);
+
+
+
+            SetShapeType();
+            SetColors();
+            SpecializedSetup();
+
+            SetScale();
+
+            SetSpeeds();
+            Destroy(gameObject, 10);
+        }
+        private void Update()
+        {
+            Move();
+            Rotate();
+        }
+
+
+
+
+
+
+        private void SetShapeType()
+        {
+            int randomShapeInt = Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length - 1);
+            _shape.settings.shapeType = (ShapeType)randomShapeInt;
+            _shapeType = _shape.settings.shapeType;
+        }
+        private void SetColors()
+        {
+            float red = Random.Range(0f, 1f);
+            float green = Random.Range(0f, 1f);
+            float blue = Random.Range(0f, 1f);
+            _shape.settings.fillColor = new Color(red, green, blue);
+
+            red = Random.Range(0f, 1f);
+            green = Random.Range(0f, 1f);
+            blue = Random.Range(0f, 1f);
+            _shape.settings.outlineColor = new Color(red, green, blue);
+        }
+        private void SpecializedSetup()
+        {
+            _shapeSetups[(int)_shapeType].Setup();
+        }
+
+        private void SetScale()
+        {
+            float scale = Random.Range(0.1f, 1);
+
+            transform.localScale = Vector3.one * scale;
+        }
+
+
+        private void SetSpeeds()
+        {
+            _moveSpeed = Random.Range(5, 10);
+            _rotationSpeed = Random.Range(40, 100);
+        }
+        private void Move()
+        {
+            transform.position += Vector3.left * _moveSpeed * Time.deltaTime;
+        }
+        private void Rotate()
+        {
+            transform.Rotate(Vector3.forward, _rotationSpeed * Time.deltaTime);
+        }
     }
-    private void Update()
+
+
+
+
+    public abstract class BaseBackgroundShapeSetupController
     {
-        Move();
-        Rotate();
+        protected Shape _shape;
+
+        public BaseBackgroundShapeSetupController(Shape shape)
+        {
+            _shape = shape;
+        }
+
+
+        public abstract void Setup();
     }
 
 
-
-
-
-
-    private void SetShapeType()
+    public class BackgroundShapeSetup_Ellipse : BaseBackgroundShapeSetupController
     {
-        int randomShapeInt = Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length-1);
-        _shape.settings.shapeType = (ShapeType)randomShapeInt;
-        if (_shape.settings.shapeType == ShapeType.Path) Debug.Log("Path");
+        public BackgroundShapeSetup_Ellipse(Shape shape) : base(shape) { }
+
+
+        public override void Setup()
+        {
+            _shape.settings.startAngle = Random.Range(0, 360);
+            _shape.settings.endAngle = 0;
+
+            _shape.settings.innerCutout = Vector2.one * Random.Range(0f, 1f);
+
+            _shape.settings.outlineSize = Random.Range(0f, 0.5f / 2) * _shape.transform.localScale.x * (_shape.settings.innerCutout.x / 6);
+        }
     }
-    private void SetColors()
+    public class BackgroundShapeSetup_Polygon : BaseBackgroundShapeSetupController
     {
-        float red = Random.Range(0f, 1f);
-        float green = Random.Range(0f, 1f);
-        float blue = Random.Range(0f, 1f);
-        _shape.settings.fillColor = new Color(red, green, blue);
+        public BackgroundShapeSetup_Polygon(Shape shape) : base(shape) { }
 
-        red = Random.Range(0f, 1f);
-        green = Random.Range(0f, 1f);
-        blue = Random.Range(0f, 1f);
-        _shape.settings.outlineColor = new Color(red, green, blue);
+
+        public override void Setup()
+        {
+            _shape.settings.polygonPreset = (PolygonPreset)(Random.Range(0, 10) + 2);
+
+            _shape.settings.outlineSize = Random.Range(0f, 0.5f / 2) * _shape.transform.localScale.x;
+        }
     }
-
-
-    private void SetScale()
+    public class BackgroundShapeSetup_Rectangle : BaseBackgroundShapeSetupController
     {
-        float scale = Random.Range(0.1f, 1);
+        public BackgroundShapeSetup_Rectangle(Shape shape) : base(shape) { }
 
-        transform.localScale = Vector3.one * scale;
+
+        public override void Setup()
+        {
+            _shape.settings.roundness = Random.Range(0f, 0.8f);
+
+            _shape.settings.outlineSize = Random.Range(0f, 0.5f / 2) * _shape.transform.localScale.x;
+        }
     }
+    public class BackgroundShapeSetup_Triangle : BaseBackgroundShapeSetupController
+    {
+        public BackgroundShapeSetup_Triangle(Shape shape) : base(shape) { }
 
 
-    private void SetSpeeds()
-    {
-        _moveSpeed = Random.Range(5, 10);
-        _rotationSpeed = Random.Range(40, 100);
-    }
-    private void Move()
-    {
-        transform.position += Vector3.left * _moveSpeed * Time.deltaTime;
-    }
-    private void Rotate()
-    {
-        transform.Rotate(Vector3.forward, _rotationSpeed * Time.deltaTime);
+        public override void Setup()
+        {
+            _shape.settings.triangleOffset = Random.Range(0f, 1f);
+
+            _shape.settings.outlineSize = Random.Range(0f, 0.31f / 2) * _shape.transform.localScale.x;
+        }
     }
 }

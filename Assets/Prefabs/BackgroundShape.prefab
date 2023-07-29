@@ -29,7 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     _blur: 0
-    _endAngle: 360
+    _endAngle: 0
     _fillColor: {r: 0.3882353, g: 1, b: 1, a: 1}
     _fillColor2: {r: 0, g: 0, b: 0, a: 1}
     _fillOffset: {x: 0, y: 0}
@@ -61,24 +61,31 @@ MonoBehaviour:
     _gradientStart: 0
     _gradientType: 0
     _gridSize: 0.2
-    _innerCutout: {x: 0, y: 0}
+    _innerCutout: {x: 0.5, y: 0.5}
     _invertArc: 0
     _lineSize: 0.05
     _obsoleteNumSides: -1
     _outlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    _outlineSize: 0
+    _outlineSize: 0.15
     _pathSegments:
     - p0: {x: -0.3, y: 0, z: 0}
       p1: {x: 0, y: 0, z: 0}
       p2: {x: 0.3, y: 0, z: 0}
     _pathThickness: 0.1
-    _polygonPreset: 3
+    _polygonPreset: 10
     _polyVertices:
     - {x: -0.000000021855694, y: 0.5}
-    - {x: -0.4755283, y: 0.1545084}
-    - {x: -0.29389253, y: -0.40450856}
-    - {x: 0.29389274, y: -0.4045084}
-    - {x: 0.4755282, y: 0.15450864}
+    - {x: -0.25000003, y: 0.4330127}
+    - {x: -0.4330127, y: 0.25000003}
+    - {x: -0.5, y: -0.00000004371139}
+    - {x: -0.43301263, y: -0.2500001}
+    - {x: -0.24999996, y: -0.43301272}
+    - {x: 0.0000000059624403, y: -0.5}
+    - {x: 0.24999996, y: -0.43301272}
+    - {x: 0.43301278, y: -0.24999988}
+    - {x: 0.5, y: 0.00000008742278}
+    - {x: 0.4330127, y: 0.25000003}
+    - {x: 0.2499998, y: 0.4330128}
     _roundness: 0
     _roundnessBottomLeft: 0
     _roundnessBottomRight: 0
@@ -86,7 +93,7 @@ MonoBehaviour:
     _roundnessTopLeft: 0
     _roundnessTopRight: 0
     _shapeType: 3
-    _startAngle: 0
+    _startAngle: 360
     _triangleOffset: 0.5
     _usePolygonMap: 0
   wasConverted: 0
