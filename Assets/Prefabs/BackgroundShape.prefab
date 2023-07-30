@@ -49,8 +49,8 @@ MonoBehaviour:
   settings:
     _blur: 0
     _endAngle: 0
-    _fillColor: {r: 0.3882353, g: 1, b: 1, a: 1}
-    _fillColor2: {r: 0, g: 0, b: 0, a: 1}
+    _fillColor: {r: 0.5303866, g: 0.48104626, b: 0.12243247, a: 1}
+    _fillColor2: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
     _fillOffset: {x: 0, y: 0}
     _fillPathLoops: 0
     _fillRotation: 0
@@ -60,13 +60,13 @@ MonoBehaviour:
     _gradientAxis: 0
     _gradientStart: 0
     _gradientType: 0
-    _gridSize: 0.2
-    _innerCutout: {x: 0.5, y: 0.5}
+    _gridSize: 0.5
+    _innerCutout: {x: 0.3, y: 0.3}
     _invertArc: 0
-    _lineSize: 0.05
+    _lineSize: 0.1
     _obsoleteNumSides: -1
-    _outlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    _outlineSize: 0.15
+    _outlineColor: {r: 0.90074253, g: 0.75208485, b: 0.3286063, a: 1}
+    _outlineSize: 0.42
     _pathSegments:
     - p0: {x: -0.3, y: 0, z: 0}
       p1: {x: 0, y: 0, z: 0}
@@ -86,13 +86,13 @@ MonoBehaviour:
     - {x: 0.5, y: 0.00000008742278}
     - {x: 0.4330127, y: 0.25000003}
     - {x: 0.2499998, y: 0.4330128}
-    _roundness: 0
-    _roundnessBottomLeft: 0
-    _roundnessBottomRight: 0
+    _roundness: 0.8
+    _roundnessBottomLeft: 0.8
+    _roundnessBottomRight: 0.8
     _roundnessPerCorner: 0
-    _roundnessTopLeft: 0
-    _roundnessTopRight: 0
-    _shapeType: 3
+    _roundnessTopLeft: 0.8
+    _roundnessTopRight: 0.8
+    _shapeType: 2
     _startAngle: 360
     _triangleOffset: 0.5
     _usePolygonMap: 0

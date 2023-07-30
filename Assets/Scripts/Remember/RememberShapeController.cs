@@ -17,9 +17,9 @@ namespace RememeberShape
             _shape = transform.GetChild(0).GetComponent<Shape>();
             _shapeSetups = new BaseRememberShapeSetupController[4];
             _shapeSetups[(int)ShapeType.Ellipse] = new RememberShapeSetup_Ellipse(_shape);
-            _shapeSetups[(int)ShapeType.Polygon] = new RememberShapeSetup_Ellipse(_shape);
-            _shapeSetups[(int)ShapeType.Rectangle] = new RememberShapeSetup_Ellipse(_shape);
-            _shapeSetups[(int)ShapeType.Triangle] = new RememberShapeSetup_Ellipse(_shape);
+            _shapeSetups[(int)ShapeType.Polygon] = new RememberShapeSetup_Polygon(_shape);
+            _shapeSetups[(int)ShapeType.Rectangle] = new RememberShapeSetup_Rectangle(_shape);
+            _shapeSetups[(int)ShapeType.Triangle] = new RememberShapeSetup_Triangle(_shape);
 
             SetBasicValues();
             CheckColorSimilarity();
@@ -93,9 +93,14 @@ namespace RememeberShape
             _shape.settings.startAngle = Random.Range(180, 360);
             _shape.settings.endAngle = 0;
 
-            _shape.settings.innerCutout = Vector2.one * Random.Range(0f, 0.5f);
+            _shape.settings.innerCutout = Vector2.one * Random.Range(0, 5)/10;
 
-            _shape.settings.outlineSize = Random.Range(0.05f, 0.5f / 2) * _shape.transform.localScale.x * (_shape.settings.innerCutout.x);
+
+            float outlineSize = Random.Range(0, 24);
+            outlineSize /= 100;
+            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+
+            if (_shape.settings.innerCutout.x > 0) _shape.settings.outlineSize /= 2;
         }
     }
     public class RememberShapeSetup_Polygon : BaseRememberShapeSetupController
@@ -105,9 +110,12 @@ namespace RememeberShape
 
         public override void Setup()
         {
-            _shape.settings.polygonPreset = (PolygonPreset)(Random.Range(0, 10) + 2);
+            _shape.settings.polygonPreset = (PolygonPreset)(Random.Range(2, 11));
 
-            _shape.settings.outlineSize = Random.Range(0.05f, 0.5f / 2) * _shape.transform.localScale.x;
+
+            float outlineSize = Random.Range(5, 30);
+            outlineSize /= 100;
+            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
         }
     }
     public class RememberShapeSetup_Rectangle : BaseRememberShapeSetupController
@@ -117,9 +125,24 @@ namespace RememeberShape
 
         public override void Setup()
         {
-            _shape.settings.roundness = Random.Range(0f, 0.8f);
+            _shape.settings.roundnessPerCorner = true;
 
-            _shape.settings.outlineSize = Random.Range(0.05f, 0.5f / 2) * _shape.transform.localScale.x;
+            _shape.settings.roundnessTopLeft = Random.Range(0f, 0.8f);
+            _shape.settings.roundnessTopLeft = Mathf.Round(_shape.settings.roundnessTopLeft * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
+
+            _shape.settings.roundnessTopRight = Random.Range(0f, 0.8f);
+            _shape.settings.roundnessTopRight = Mathf.Round(_shape.settings.roundnessTopRight * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
+
+            _shape.settings.roundnessBottomLeft = Random.Range(0f, 0.8f);
+            _shape.settings.roundnessBottomLeft = Mathf.Round(_shape.settings.roundnessBottomLeft * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
+
+            _shape.settings.roundnessBottomRight = Random.Range(0f, 0.8f);
+            _shape.settings.roundnessBottomRight = Mathf.Round(_shape.settings.roundnessBottomRight * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
+
+
+            float outlineSize = Random.Range(5, 45);
+            outlineSize /= 100;
+            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
         }
     }
     public class RememberShapeSetup_Triangle : BaseRememberShapeSetupController
@@ -130,8 +153,11 @@ namespace RememeberShape
         public override void Setup()
         {
             _shape.settings.triangleOffset = Random.Range(0f, 1f);
+            _shape.settings.triangleOffset = Mathf.Round(_shape.settings.triangleOffset * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
 
-            _shape.settings.outlineSize = Random.Range(0.05f, 0.31f / 2) * _shape.transform.localScale.x;
+            float outlineSize = Random.Range(5, 3);
+            outlineSize /= 100;
+            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
         }
     }
 }

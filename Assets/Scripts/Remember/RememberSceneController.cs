@@ -19,7 +19,7 @@ public class RememberSceneController : MonoBehaviour
             _timerImage.rectTransform.LeanScaleX(0, 3).setOnComplete(() =>
             {
                 _fadeController.Toggle(true, 0.5f);
-                this.Delay(0.5f, () => { SceneChanger.Instance.ChangeScene(SceneChanger.SceneNames.MainMenu); });
+                this.Delay(0.5f, () => { SceneChanger.Instance.ChangeScene(SceneChanger.SceneNames.Recreate); });
             });
         });
     }
