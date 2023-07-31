@@ -49,7 +49,7 @@ MonoBehaviour:
   settings:
     _blur: 0
     _endAngle: 0
-    _fillColor: {r: 0.5303866, g: 0.48104626, b: 0.12243247, a: 1}
+    _fillColor: {r: 1, g: 1, b: 1, a: 1}
     _fillColor2: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
     _fillOffset: {x: 0, y: 0}
     _fillPathLoops: 0
@@ -66,33 +66,25 @@ MonoBehaviour:
     _lineSize: 0.1
     _obsoleteNumSides: -1
     _outlineColor: {r: 0.90074253, g: 0.75208485, b: 0.3286063, a: 1}
-    _outlineSize: 0.42
+    _outlineSize: 0.3
     _pathSegments:
     - p0: {x: -0.3, y: 0, z: 0}
       p1: {x: 0, y: 0, z: 0}
       p2: {x: 0.3, y: 0, z: 0}
     _pathThickness: 0.1
-    _polygonPreset: 10
+    _polygonPreset: 2
     _polyVertices:
-    - {x: -0.000000021855694, y: 0.5}
-    - {x: -0.25000003, y: 0.4330127}
-    - {x: -0.4330127, y: 0.25000003}
-    - {x: -0.5, y: -0.00000004371139}
-    - {x: -0.43301263, y: -0.2500001}
-    - {x: -0.24999996, y: -0.43301272}
-    - {x: 0.0000000059624403, y: -0.5}
-    - {x: 0.24999996, y: -0.43301272}
-    - {x: 0.43301278, y: -0.24999988}
-    - {x: 0.5, y: 0.00000008742278}
-    - {x: 0.4330127, y: 0.25000003}
-    - {x: 0.2499998, y: 0.4330128}
+    - {x: 0, y: 0.5}
+    - {x: -0.5, y: 0}
+    - {x: 0, y: -0.5}
+    - {x: 0.5, y: 0}
     _roundness: 0.8
     _roundnessBottomLeft: 0.8
     _roundnessBottomRight: 0.8
     _roundnessPerCorner: 0
     _roundnessTopLeft: 0.8
     _roundnessTopRight: 0.8
-    _shapeType: 2
+    _shapeType: 1
     _startAngle: 360
     _triangleOffset: 0.5
     _usePolygonMap: 0

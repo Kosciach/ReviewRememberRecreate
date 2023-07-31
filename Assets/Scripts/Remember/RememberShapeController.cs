@@ -8,6 +8,7 @@ namespace RememeberShape
     public class RememberShapeController : MonoBehaviour
     {
         private static Shape _shape; public static Shape Shape { get { return _shape; } }
+        private static float _shapeScale; public static float ShapeScale { get { return _shapeScale; } }
         private BaseRememberShapeSetupController[] _shapeSetups;
         private bool _areColorsSimilar;
 
@@ -37,6 +38,7 @@ namespace RememeberShape
         {
             _shape.settings.shapeType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length - 1);
 
+
             float red = Random.Range(0f, 1f);
             float green = Random.Range(0f, 1f);
             float blue = Random.Range(0f, 1f);
@@ -47,8 +49,10 @@ namespace RememeberShape
             blue = Random.Range(0f, 1f);
             _shape.settings.outlineColor = new Color(red, green, blue);
 
+
             float scale = Random.Range(1f, 6f);
             _shape.transform.localScale = Vector3.one * scale;
+            _shapeScale = _shape.transform.localScale.x;
         }
         private void CheckColorSimilarity()
         {
@@ -155,7 +159,7 @@ namespace RememeberShape
             _shape.settings.triangleOffset = Random.Range(0f, 1f);
             _shape.settings.triangleOffset = Mathf.Round(_shape.settings.triangleOffset * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
 
-            float outlineSize = Random.Range(5, 3);
+            float outlineSize = Random.Range(0, 30);
             outlineSize /= 100;
             _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
         }

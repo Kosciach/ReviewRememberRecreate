@@ -27,4 +27,12 @@ public class CanvasFadeController : MonoBehaviour
             _canvasGroup.blocksRaycasts = enable;
         });
     }
+    public void ToggleInteractable(bool enable)
+    {
+        _canvasGroup.interactable = enable;
+    }
+    public void ToggleBlocksRaycasts(bool enable)
+    {
+        _canvasGroup.blocksRaycasts = enable;
+    }
 }
