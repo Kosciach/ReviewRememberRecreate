@@ -9,23 +9,22 @@ namespace RememeberShape
     {
         private static Shape _shape; public static Shape Shape { get { return _shape; } }
         private static float _shapeScale; public static float ShapeScale { get { return _shapeScale; } }
-        private BaseRememberShapeSetupController[] _shapeSetups;
         private bool _areColorsSimilar;
 
 
         private void Awake()
         {
             _shape = transform.GetChild(0).GetComponent<Shape>();
-            _shapeSetups = new BaseRememberShapeSetupController[4];
-            _shapeSetups[(int)ShapeType.Ellipse] = new RememberShapeSetup_Ellipse(_shape);
-            _shapeSetups[(int)ShapeType.Polygon] = new RememberShapeSetup_Polygon(_shape);
-            _shapeSetups[(int)ShapeType.Rectangle] = new RememberShapeSetup_Rectangle(_shape);
-            _shapeSetups[(int)ShapeType.Triangle] = new RememberShapeSetup_Triangle(_shape);
+            System.Action[] individualSetups = new System.Action[4];
+            individualSetups[(int)ShapeType.Ellipse] = EllipseSetup;
+            individualSetups[(int)ShapeType.Polygon] = PolygonSetup;
+            individualSetups[(int)ShapeType.Rectangle] = RectangleSetup;
+            individualSetups[(int)ShapeType.Triangle] = TriangleSetup;
 
             SetBasicValues();
             CheckColorSimilarity();
 
-            _shapeSetups[(int)_shape.settings.shapeType].Setup();
+            individualSetups[(int)_shape.settings.shapeType]();
 
 
             if (!_areColorsSimilar) return;
@@ -36,7 +35,8 @@ namespace RememeberShape
 
         private void SetBasicValues()
         {
-            _shape.settings.shapeType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length - 1);
+            //_shape.settings.shapeType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length - 1);
+            _shape.settings.shapeType = ShapeType.Ellipse;
 
 
             float red = Random.Range(0f, 1f);
@@ -68,36 +68,15 @@ namespace RememeberShape
             float diff = new Vector3(redDiff, greenDiff, blueDiff).magnitude;
             _areColorsSimilar = diff <= 0.2f;
         }
-    }
 
 
 
-
-    public abstract class BaseRememberShapeSetupController
-    {
-        protected Shape _shape;
-
-        public BaseRememberShapeSetupController(Shape shape)
-        {
-            _shape = shape;
-        }
-
-
-        public abstract void Setup();
-    }
-
-
-    public class RememberShapeSetup_Ellipse : BaseRememberShapeSetupController
-    {
-        public RememberShapeSetup_Ellipse(Shape shape) : base(shape) { }
-
-
-        public override void Setup()
+        private void EllipseSetup()
         {
             _shape.settings.startAngle = Random.Range(180, 360);
             _shape.settings.endAngle = 0;
 
-            _shape.settings.innerCutout = Vector2.one * Random.Range(0, 5)/10;
+            _shape.settings.innerCutout = Vector2.one * Random.Range(0, 5) / 10;
 
 
             float outlineSize = Random.Range(0, 24);
@@ -106,13 +85,7 @@ namespace RememeberShape
 
             if (_shape.settings.innerCutout.x > 0) _shape.settings.outlineSize /= 2;
         }
-    }
-    public class RememberShapeSetup_Polygon : BaseRememberShapeSetupController
-    {
-        public RememberShapeSetup_Polygon(Shape shape) : base(shape) { }
-
-
-        public override void Setup()
+        private void PolygonSetup()
         {
             _shape.settings.polygonPreset = (PolygonPreset)(Random.Range(2, 11));
 
@@ -121,13 +94,7 @@ namespace RememeberShape
             outlineSize /= 100;
             _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
         }
-    }
-    public class RememberShapeSetup_Rectangle : BaseRememberShapeSetupController
-    {
-        public RememberShapeSetup_Rectangle(Shape shape) : base(shape) { }
-
-
-        public override void Setup()
+        private void RectangleSetup()
         {
             _shape.settings.roundnessPerCorner = true;
 
@@ -148,13 +115,7 @@ namespace RememeberShape
             outlineSize /= 100;
             _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
         }
-    }
-    public class RememberShapeSetup_Triangle : BaseRememberShapeSetupController
-    {
-        public RememberShapeSetup_Triangle(Shape shape) : base(shape) { }
-
-
-        public override void Setup()
+        private void TriangleSetup()
         {
             _shape.settings.triangleOffset = Random.Range(0f, 1f);
             _shape.settings.triangleOffset = Mathf.Round(_shape.settings.triangleOffset * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
