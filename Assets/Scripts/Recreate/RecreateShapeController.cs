@@ -8,8 +8,28 @@ public class RecreateShapeController : MonoBehaviour
 {
     [Header("====Header====")]
     [SerializeField] RecreateCanvasController _canvasController;
+
+
+    [Space(20)]
+    [Header("====Settings====")]
+    [SerializeField] OutlineSliderData[] _outlineSlidersData;
+
+
     private static Shape _shape; public static Shape Shape { get { return _shape; } }
     private static float _shapeScale; public static float ShapeScale { get { return _shapeScale; } }
+
+
+
+    [System.Serializable]
+    public struct OutlineSliderData
+    {
+        public string Name;
+        public Slider Slider;
+        public float MaxValueForScaleOne;
+    }
+
+
+
 
 
 
@@ -30,6 +50,7 @@ public class RecreateShapeController : MonoBehaviour
         else if (currentShapeTypeInt > 3) currentShapeTypeInt = 0;
 
         _shape.settings.shapeType = (ShapeType)currentShapeTypeInt;
+        _shape.settings.outlineSize = _outlineSlidersData[currentShapeTypeInt].Slider.value / 100;
 
         _canvasController.UpdateShapeType(_shape.settings.shapeType);
     }
@@ -38,6 +59,10 @@ public class RecreateShapeController : MonoBehaviour
     {
         _shape.transform.localScale = Vector3.one * slider.value;
         _shapeScale = _shape.transform.localScale.x;
+
+        int shapeTypeIndex = (int)_shape.settings.shapeType;
+        OutlineSliderData outlineSliderData = _outlineSlidersData[shapeTypeIndex];
+        outlineSliderData.Slider.maxValue = outlineSliderData.MaxValueForScaleOne * slider.value;
     }
 
     public void ChangeFillColorRed(Slider slider)
@@ -72,7 +97,7 @@ public class RecreateShapeController : MonoBehaviour
     {
         float outlineSize = slider.value;
         outlineSize /= 100;
-        _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+        _shape.settings.outlineSize = outlineSize;
 
         if (_shape.settings.innerCutout.x > 0) _shape.settings.outlineSize /= 2;
     }
@@ -92,7 +117,7 @@ public class RecreateShapeController : MonoBehaviour
     {
         float outlineSize = slider.value;
         outlineSize /= 100;
-        _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+        _shape.settings.outlineSize = outlineSize;
     }
     public void ChangePolygonPreset(bool increment)
     {
@@ -113,7 +138,7 @@ public class RecreateShapeController : MonoBehaviour
     {
         float outlineSize = slider.value;
         outlineSize /= 100;
-        _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+        _shape.settings.outlineSize = outlineSize;
     }
     public void ChangeRectangleRoundnessTL(Slider slider)
     {
@@ -136,7 +161,9 @@ public class RecreateShapeController : MonoBehaviour
 
     public void ChangeTriangleOutline(Slider slider)
     {
-        _shape.settings.outlineSize = slider.value * _shape.transform.localScale.x;
+        float outlineSize = slider.value;
+        outlineSize /= 100;
+        _shape.settings.outlineSize = outlineSize;
     }
     public void ChangeTriangleOffset(Slider slider)
     {

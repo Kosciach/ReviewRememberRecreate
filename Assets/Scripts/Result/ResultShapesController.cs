@@ -43,10 +43,11 @@ public class ResultShapesController : MonoBehaviour
         float fillColorAccuracy = FillColorAccuracy();
         float outlineColorAccuracy = OutlineColorAccuracy();
         float shapeTypeAccuracy = ShapeTypeAccuracy();
+        float outlineSizeAccuracy = OutlineSizeAccuracy();
 
         float individualAccuracy = individualMethods[(int)_rememberShape.settings.shapeType]();
 
-        float accuracy = (scaleAccuracy + fillColorAccuracy + outlineColorAccuracy + shapeTypeAccuracy + individualAccuracy) / 5;
+        float accuracy = (scaleAccuracy + fillColorAccuracy + outlineColorAccuracy + shapeTypeAccuracy + outlineSizeAccuracy + individualAccuracy) / 6;
         string accuracyText = "Accuracy: " + accuracy.ToString("F0") + " %";
         _accuracy.text = accuracyText;
     }
@@ -70,49 +71,48 @@ public class ResultShapesController : MonoBehaviour
     {
         return _recreateShape.settings.shapeType == _rememberShape.settings.shapeType ? 100 : 0;
     }
+    private float OutlineSizeAccuracy()
+    {
+        int[] maxOutlineSizesPerScaleOne = { 20, 30, 40, 25 };
+        int outlineShapeTypeDiff = Mathf.Abs(maxOutlineSizesPerScaleOne[(int)_rememberShape.settings.shapeType] - maxOutlineSizesPerScaleOne[(int)_recreateShape.settings.shapeType]);
 
+        float rememberOutlineSize = _rememberShape.settings.outlineSize;
+        float recreateOutlineSize = _recreateShape.settings.outlineSize;
+
+        if (rememberOutlineSize < recreateOutlineSize) rememberOutlineSize += (outlineShapeTypeDiff / 100);
+        else if (recreateOutlineSize < rememberOutlineSize) recreateOutlineSize += (outlineShapeTypeDiff / 100);
+
+        return CalculateTwoValuesSimilarity(rememberOutlineSize, recreateOutlineSize);
+    }
 
     private float EllipseAccuracy()
     {
-        float outlineAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.outlineSize, _recreateShape.settings.outlineSize);
-        Debug.Log(outlineAccuracy);
-
         float angleAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.startAngle, _recreateShape.settings.startAngle);
         float innerCutoutAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.innerCutout.x, _recreateShape.settings.innerCutout.x);
 
-        return (outlineAccuracy + angleAccuracy + innerCutoutAccuracy) / 3;
+        return (angleAccuracy + innerCutoutAccuracy) / 2;
     }
     private float PolygonAccuracy()
     {
-        float a = Mathf.Abs(_rememberShape.settings.outlineSize - _recreateShape.settings.outlineSize);
-        float outlineAccuracy = Mathf.Abs(100 - ((a / _rememberShape.settings.outlineSize) * 100));
-
-
         float polygonPresetAccuracy = _recreateShape.settings.polygonPreset == _rememberShape.settings.polygonPreset ? 100 : 0;
 
 
-        return (outlineAccuracy + polygonPresetAccuracy) / 2;
+        return polygonPresetAccuracy;
     }
     private float RectangleAccuracy()
     {
-        float a = Mathf.Abs(_rememberShape.settings.outlineSize - _recreateShape.settings.outlineSize);
-        float outlineAccuracy = Mathf.Abs(100 - ((a / _rememberShape.settings.outlineSize) * 100));
-
         float roundnessTLAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.roundnessTopLeft, _recreateShape.settings.roundnessTopLeft);
         float roundnessTRAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.roundnessTopRight, _recreateShape.settings.roundnessTopRight);
         float roundnessBLAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.roundnessBottomLeft, _recreateShape.settings.roundnessBottomLeft);
         float roundnessBRAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.roundnessBottomRight, _recreateShape.settings.roundnessBottomRight);
 
-        return (outlineAccuracy + roundnessTLAccuracy + roundnessTRAccuracy + roundnessBLAccuracy + roundnessBRAccuracy) / 5;
+        return (roundnessTLAccuracy + roundnessTRAccuracy + roundnessBLAccuracy + roundnessBRAccuracy) / 4;
     }
     private float TriangleAccuracy()
     {
-        float a = Mathf.Abs(_rememberShape.settings.outlineSize - _recreateShape.settings.outlineSize);
-        float outlineAccuracy = Mathf.Abs(100 - ((a / _rememberShape.settings.outlineSize) * 100));
-
         float offsetAccuracy = CalculateTwoValuesSimilarity(_rememberShape.settings.triangleOffset, _recreateShape.settings.triangleOffset);
 
-        return (outlineAccuracy + offsetAccuracy) / 2;
+        return offsetAccuracy;
     }
 
 

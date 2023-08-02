@@ -35,8 +35,8 @@ namespace RememeberShape
 
         private void SetBasicValues()
         {
-            //_shape.settings.shapeType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length - 1);
-            _shape.settings.shapeType = ShapeType.Ellipse;
+            _shape.settings.shapeType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length - 1);
+            //_shape.settings.shapeType = ShapeType.Ellipse;
 
 
             float red = Random.Range(0f, 1f);
@@ -79,9 +79,9 @@ namespace RememeberShape
             _shape.settings.innerCutout = Vector2.one * Random.Range(0, 5) / 10;
 
 
-            float outlineSize = Random.Range(0, 24);
+            float outlineSize = Random.Range(0, 20 * _shape.transform.localScale.x);
             outlineSize /= 100;
-            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+            _shape.settings.outlineSize = outlineSize;
 
             if (_shape.settings.innerCutout.x > 0) _shape.settings.outlineSize /= 2;
         }
@@ -90,9 +90,9 @@ namespace RememeberShape
             _shape.settings.polygonPreset = (PolygonPreset)(Random.Range(2, 11));
 
 
-            float outlineSize = Random.Range(5, 30);
+            float outlineSize = Random.Range(0, 30 * _shape.transform.localScale.x);
             outlineSize /= 100;
-            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+            _shape.settings.outlineSize = outlineSize;
         }
         private void RectangleSetup()
         {
@@ -111,18 +111,18 @@ namespace RememeberShape
             _shape.settings.roundnessBottomRight = Mathf.Round(_shape.settings.roundnessBottomRight * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
 
 
-            float outlineSize = Random.Range(5, 45);
+            float outlineSize = Random.Range(0, 40 * _shape.transform.localScale.x);
             outlineSize /= 100;
-            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+            _shape.settings.outlineSize = outlineSize;
         }
         private void TriangleSetup()
         {
             _shape.settings.triangleOffset = Random.Range(0f, 1f);
             _shape.settings.triangleOffset = Mathf.Round(_shape.settings.triangleOffset * Mathf.Pow(10, 2)) / Mathf.Pow(10, 2);
 
-            float outlineSize = Random.Range(0, 30);
+            float outlineSize = Random.Range(0, 25 * _shape.transform.localScale.x);
             outlineSize /= 100;
-            _shape.settings.outlineSize = outlineSize * _shape.transform.localScale.x;
+            _shape.settings.outlineSize = outlineSize;
         }
     }
 }
