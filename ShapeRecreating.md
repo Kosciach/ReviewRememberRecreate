@@ -18,7 +18,7 @@ There is also outlineSize setting under colors, but it is only make to look like
 
 
 <br>
-<h2 align="center">ValusForSpecificShapeType</h2>
+<h2 align="center">ValuesForSpecificShapeType</h2>
 <p align="center">
 Each shapeType has its own panel with settings for this shape.<br>
   When player changes shapeType, all panels except the one for this shape are disabled.<br>
