@@ -7,7 +7,7 @@ public class BackgroundShapesSpawner : MonoBehaviour
     [Header("====References====")]
     [SerializeField] Camera _camera;
     [SerializeField] Transform _spawnPoint;
-    [SerializeField] GameObject _backgroundShapePrefab; 
+    [SerializeField] GameObject _backgroundShapePrefab;
 
 
     [Header("====Debugs====")]
@@ -60,6 +60,6 @@ public class BackgroundShapesSpawner : MonoBehaviour
 
         Vector3 spawnPosition = new Vector3(_spawnPoint.position.x, spawnHeight, 0);
         float spawnRotationZ = Random.Range(-180, 180);
-        Instantiate(_backgroundShapePrefab, spawnPosition, Quaternion.Euler(0, 0, spawnRotationZ));
+        Instantiate(_backgroundShapePrefab, spawnPosition, Quaternion.Euler(0, 0, spawnRotationZ), transform);
     }
 }
